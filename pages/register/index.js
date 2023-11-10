@@ -2,10 +2,12 @@ import Button from "@mui/material/Button";
 import Image from "next/image";
 import Foto from "@/public/foto.png";
 import Foto2 from "@/public/Vector.png";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Checkbox from "@mui/material/Checkbox";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import { FcGoogle } from "react-icons/fc";
+import axios from "axios";
+import { useRouter } from "next/router";
 
 export default function Register() {
   const [form, setForm] = useState({
@@ -17,44 +19,78 @@ export default function Register() {
     password2: "",
   });
 
+  const router = useRouter();
+
   const [termsCheck, setTermsCheck] = useState(false);
+  const [userToken, setUserToken] = useState("");
+
+  useEffect(() => {
+    const userToken = localStorage.getItem("user_token");
+
+    if (userToken) {
+      // window.location.href = "/pages/index.js";
+      router.push("/");
+    }
+  }, []);
 
   const handleOnChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = () => {
+  const createAccountService = async () => {
+    const requestBody = {
+      name: form.name,
+      lastname: form.surname,
+      username: form.username,
+      email: form.email,
+      password: form.password,
+    };
+
+    const response = await axios.post(
+      "http://localhost:3000/auth/register",
+      requestBody
+    );
+
+    if (response.status === 200) {
+      setUserToken(response.data.token);
+      localStorage.setItem("user_token", response.data.token);
+    } else {
+      alert("An error occured while creating your account.");
+    }
+  };
+
+  const handleSubmit = async () => {
     if (termsCheck === false) {
       alert("You must accept the terms of use and privacy policy.");
     } else if (form.password !== form.password2) {
       alert("Your passwords doesn't match.");
     } else {
-      // await createAccountService();
+      await createAccountService();
       alert("İşlem Başarılı");
     }
   };
 
   return (
     <div className="flex w-full h-screen justify-center items-center bg-white">
-      <div className="justify-start pt-96 inline-block ">
+      <div className="justify-start pt-96 md:block hidden">
         <Image src={Foto2} alt="Foto2" className="" />
       </div>
-      <div className="w-1/2 flex flex-col justify-center items-center gap-5">
+      <div className="md:w-1/2 w-full flex flex-col justify-center items-center gap-5">
         <div className=" flex flex-col justify-center items-center">
-          <h1 className="text-4xl font-bold mb-2">
+          <p className="md:text-4xl text-2xl font-bold mb-2">
             Please Create An New Account
-          </h1>
+          </p>
           <p>Let's create a new account and socialize!</p>
         </div>
 
-        <div className="w-5/6 flex justify-center items-center rounded-lg gap-2 p-1">
+        <div className="w-5/6 flex justify-center items-center rounded-lg gap-2 ">
           <input
             value={form.name}
             onChange={(e) => handleOnChange(e)}
             name="name"
             placeholder="Name"
             type="text"
-            className="w-5/6 border-none rounded-2xl bg-gray-100  text-black p-3 outline-none"
+            className="w-5/6 border-none rounded-2xl bg-gray-100  text-black p-4 outline-none"
             sx={{
               "&:hover": {
                 border: "none",
@@ -70,7 +106,7 @@ export default function Register() {
             name="surname"
             placeholder="Surname"
             type="text"
-            className="border-none rounded-2xl bg-gray-100 w-5/6 text-black p-3 outline-none"
+            className="border-none rounded-2xl bg-gray-100 w-5/6 text-black p-4 outline-none"
             sx={{
               "&:hover": {
                 border: "none",
@@ -79,14 +115,14 @@ export default function Register() {
           />
         </div>
 
-        <div className="w-5/6 flex justify-center items-center rounded-lg gap-2  p-1">
+        <div className="w-5/6 flex justify-center items-center rounded-lg gap-2 ">
           <input
             value={form.username}
             onChange={(e) => handleOnChange(e)}
             name="username"
             placeholder="Enter your username"
             type="text"
-            className="w-5/6 border-none rounded-2xl bg-gray-100 text-black p-3 outline-none"
+            className="w-5/6 border-none rounded-2xl bg-gray-100 text-black p-4 outline-none"
             sx={{
               "&:hover": {
                 border: "none",
@@ -102,7 +138,7 @@ export default function Register() {
             name="email"
             placeholder="Enter Your e-mail"
             type="email"
-            className="w-5/6 border-none rounded-2xl bg-gray-100 text-black p-3 outline-none"
+            className="w-5/6 border-none rounded-2xl bg-gray-100 text-black p-4 outline-none"
             sx={{
               "&:hover": {
                 border: "none",
@@ -225,7 +261,7 @@ export default function Register() {
         </div>
       </div>
 
-      <div className="w-1/2 flex  justify-center items-center">
+      <div className="w-1/2 flex justify-center items-center md:block hidden">
         <Image src={Foto} alt="Foto" className="p-4 hover:p-2" />
       </div>
     </div>

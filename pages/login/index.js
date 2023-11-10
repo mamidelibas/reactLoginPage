@@ -28,15 +28,15 @@ export default function Login() {
 
   return (
     <div className="flex h-screen justify-center items-center bg-white">
-      <div className="justify-start pt-96 inline-block">
+      <div className="justify-start pt-96 md:inline-block hidden">
         <Image src={Foto2} alt="Foto2" className="" />
       </div>
-      <div className="w-1/2 flex flex-col justify-center items-center gap-5">
-        <div className="w-1/2 flex flex-col justify-center items-center">
-          <h1 className="text-[5rem] font-bold">Welcome</h1>
+      <div className="md:w-1/2 w-full flex flex-col md:px-0 px-5 justify-center items-center gap-5">
+        <div className="md:w-1/2 w-full flex flex-col justify-center items-center">
+          <h1 className="md:text-8xl text-5xl font-bold">Welcome</h1>
           <p>We are glad to see you back with us</p>
         </div>
-        <div className="w-1/2 flex items-center bg-gray-100 border-white rounded-2xl py-1">
+        <div className="md:w-1/2 w-full flex items-center bg-gray-100 border-white rounded-2xl py-1">
           <Person2OutlinedIcon className="ml-3 text-3xl" />
           <input
             value={form.username}
@@ -52,7 +52,7 @@ export default function Login() {
             }}
           />
         </div>
-        <div className="w-1/2 flex items-center bg-gray-100 border-white rounded-2xl py-1 ">
+        <div className="md:w-1/2 w-full flex items-center bg-gray-100 border-white rounded-2xl py-1 ">
           <HttpsOutlinedIcon className="ml-3 text-3xl" />
           <input
             value={form.password}
@@ -68,15 +68,28 @@ export default function Login() {
             }}
           />
         </div>
-        {/* 
-        <div className="w-1/2 flex flex-col justify-center items-center gap-5">
+
+        {/* <div className="w-1/2 flex flex-col justify-center items-center gap-5">
           <TextField
+            className="outline-none"
             id="outlined-basic"
             placeholder="Username"
             variant="outlined"
             sx={{
               width: "100%",
             }}
+          />
+          <TextField
+            className="bg-gray-100 outline-none p-4 rounded-2xl w-full border-none"
+            id="input-with-icon-textfield"
+            InputProps={{
+              startAdornment: (
+                <HttpsOutlinedIcon className="mr-2" position="start">
+                  <AccountCircle />
+                </HttpsOutlinedIcon>
+              ),
+            }}
+            variant="standard"
           />
           <TextField
             id="outlined-basic"
@@ -92,9 +105,9 @@ export default function Login() {
             handleSubmit();
           }}
           variant="contained"
-          className="bg-gray-950 text-white w-25% py-3 rounded-2xl shadow-none"
+          className="bg-gray-950 md:w-1/2 w-full text-white w-25% py-3 rounded-2xl shadow-none"
           sx={{
-            width: "50%",
+            // width: "50%",
             "&:hover": {
               backgroundColor: "#303030",
               boxShadow: "none",
@@ -103,7 +116,7 @@ export default function Login() {
         >
           LOGIN
         </Button>
-        <div className="w-full flex flex-row justify-center items-center gap-5">
+        <div className="md:w-1/2 w-full flex flex-row justify-center items-center gap-5">
           <div className="w-24 border-b  border-gray-300 inline-block"></div>
           <a className="flex" href="#">
             <span className="font-bold normal-case mr-1">Login </span>with
@@ -114,7 +127,7 @@ export default function Login() {
         {/* <a>
           <span className="font-bold">Login</span> with Others
         </a> */}
-        <div className="w-1/2 flex flex-col justify-center items-center gap-4">
+        <div className="md:w-1/2 w-full flex flex-col justify-center items-center gap-4">
           <Button
             startIcon={<FcGoogle />}
             sx={{
@@ -139,7 +152,7 @@ export default function Login() {
         </div>
       </div>
 
-      <div className="w-1/2 flex  justify-center items-center">
+      <div className="w-1/2 flex  justify-center items-center md:block hidden">
         <Image src={Foto} alt="Foto" className="p-4 hover:p-2" />
       </div>
     </div>
